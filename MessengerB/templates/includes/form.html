@@ -1,0 +1,52 @@
+{% block content %}
+    <div class='base-form col-12 col-sm-10 col-md-9 col-lg-9 col-xl-6'>
+        {% load static %}
+        <div class='base-form__errors'>
+            {% if form.errors %}
+                {% for error in form.non_field_errors %}
+                    <span>{{ error|escape }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <form method='POST' class='base-form__form' {% if form.is_multipart %} enctype="multipart/form-data" {% endif %}>
+        {% csrf_token %}
+
+            {% for field in form %}
+                <div class='base-form__form-row'>
+                    <label for='{{ field.id_for_label }}'>
+                        {{ field.label }}
+                        {% if field.field.required %}
+                            <span class='base-form__star'>*</span>
+                        {% endif %}
+                    </label>
+                    <div class="base-form__field-errors">
+                        {% for error in field.errors %}
+                            <span>{{ error|escape }}</span>
+                        {% endfor %}
+                    </div>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small id='{{ field.id_for_label}}-help'>
+                            {{ field.help_text|safe}}
+                        </small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class='form-buttons-container'>
+                <button name='edit' type='submit' class='submit-btn'>{{ submit_text }}</button>
+                {% if edit %}
+                    <button type='button' class='submit-btn delete-btn'>Удалить</button>
+                {% endif %}
+            </div>
+            {% if show_forgot_password %}
+                <span class='base-form__link'>
+                    <a href='{% url "users:password_change" %}'>Забыли пароль?</a>
+                </span>
+            {% endif %}
+        </form>
+        <script src="{% static 'js/disable_file_input_on_clear.js' %}"></script>
+        <script src="{% static 'js/search.js' %}"></script>
+    </div>
+{% endblock %}

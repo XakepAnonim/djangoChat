@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Log-in{% endblock %}
+{% block content %}
+    <h1>Log-in</h1>
+    <p>
+        Если у вас нет учетной записи, пожалуйста <a href="{% url 'users:register' %}">зарегестрируйтесь</a><br>
+        Пожалуйста, используйте следующую форму для входа в систему:
+    </p>
+    <form method="post">
+        {{ form }}
+        {% csrf_token %}
+        <p><input type="submit" value="Log in"></p>
+    </form>
+    <p>
+        <a href="{% url 'users:password_reset' %}">
+            Забыли пароль?
+        </a>
+    </p>
+{% endblock %}

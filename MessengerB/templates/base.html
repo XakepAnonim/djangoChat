@@ -1,0 +1,55 @@
+{% load static %}
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% comment %} Connect google fonts {% endcomment %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700&display=swap" rel="stylesheet">
+
+    {% comment %} Connect SCSS styles {% endcomment %}
+    <link href="{% static 'scss/style.scss' %}" rel="stylesheet" type="text/css" />
+
+    {% comment %} Connect MomentJS {% endcomment %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment-with-locales.min.js" integrity="sha512-vFABRuf5oGUaztndx4KoAEUVQnOvAIFs59y4tO0DILGWhQiFnFHiR+ZJfxLDyJlXgeut9Z07Svuvm+1Jv89w5g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+<body>
+    <div id="header">
+        <span class="logo">Messenger</span>
+        {% if request.user.is_authenticated %}
+            <ul class="menu">
+                <li {% if section == 'home' %}class="selected"{% endif %}>
+                    <a href="{% url 'home' %}">Главная</a>
+                </li>
+                <li {% if section == 'gchat' %}class="selected"{% endif %}>
+                    <a href="{% url 'groups:groups_list' %}">Группы</a>
+                </li>
+                <li {% if section == 'channels' %}class="selected"{% endif %}>
+                    <a href="#"">Каналы</a>
+                </li>
+                <li {% if section == 'lchat' %}class="selected"{% endif %}>
+                    <a href="{% url 'chats:chats_list' %}">Чаты</a>
+                </li>
+            </ul>
+        {% endif %}
+        <span class="user">
+            {% if request.user.is_authenticated %}
+            Привет <a href="{% url 'users:profile' %}">{{ request.user.username|default:request.user.username }}</a>! <a href="{% url 'users:logout' %}"><img src="{% static 'img/logout.png' %}" width="15px" height="15px" align="center"></a>
+            {% else %}
+                <a href="{% url 'users:login' %}">Log-in</a>
+            {% endif %}
+        </span>
+        </div>
+        <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

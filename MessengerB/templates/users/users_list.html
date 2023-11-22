@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Список пользователей
+{% endblock %}
+
+{% block content %}
+
+    <div class='content col-xl-9 h-100'>
+        <h1 class='title'>Список пользователей</h1>
+        <input class="search-bar" type="text" placeholder="Поиск.." id="js-search">
+        <div class='users-list' id="js-list-container">
+            {% for user_list in users %}
+                <a class='all-chats-list__item item' href='{% url "users:user_detail" user_list.id %}'>
+                    <div class='chat__img item__img'>
+                        <span>{{ user_list.username|make_list|first|capfirst }}</span>
+                    </div>
+                    <span class='chat__name item__name'>
+                        {{ user_list.username|truncatechars:50 }}
+                    </span>
+                </a>
+                
+            {% endfor %}
+        </div>
+    </div>
+    <script src="{% static 'js/search_bar.js' %}"></script>
+
+{% endblock %}
+
+
+ 
+
+
+

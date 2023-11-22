@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Чаты {% endblock %}
+
+{% block content %}
+    <div class='content col-xl-9 h-100'>
+      <h1 class='title'>Чаты</h1>
+       <button class='find-friend-btn'>
+        <a href='{% url "users:users_list" %}'>Найти друга</a>
+      </button>
+      <input class="search-bar" type="text" placeholder="Поиск.." id="js-search">
+      <div class='all-chats-list list' id="js-list-container">
+        {% for chat in chats %}
+           <a class='all-chats-list__item item' href='{% url "chats:chat" chat.id %}'>
+             {% if chat.first_user.id == request.user.id %}
+                <div class='chat__img item__img'>
+                    <span>{{ chat.second_user.username|make_list|first|capfirst }}</span>
+                </div>
+                <span class='chat__name item__name'>
+                  {{ chat.second_user.username|truncatechars:50 }}
+                </span>
+             {% else %}
+                <div class='chat__img item__img'>
+                    <span>{{ chat.first_user.username|make_list|first|capfirst }}</span>
+                </div>
+                <span class='chat__name item__name'>
+                  {{ chat.first_user.username|truncatechars:50 }}
+                </span>
+             {% endif %}
+            </a>
+        {% endfor %}
+      </div>
+    </div>
+    <script src="{% static 'js/search_bar.js' %}"></script>
+{% endblock %}

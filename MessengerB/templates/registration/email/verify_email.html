@@ -1,0 +1,5 @@
+Привет {{ user.get_username }}! :D
+
+Чтобы продолжить пользоваться сайтом, тебе нужно подтвердить свою электроную почту: {{ email }}
+
+{{ protocol }}://{{ domain }}{% url 'verify_email' uidb64=uid token=token %}

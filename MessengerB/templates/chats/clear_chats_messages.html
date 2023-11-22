@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} Чаты {% endblock %}
+
+{% block content %}
+    <div class='content col-xl-9 h-100'>
+      <h3 class='title'>История сообщений удалена!</h3>
+      <a href="{% url 'chats:chat' chat.id %}" class='go-back-btn'><button>Перейти к чату</button></a>
+    </div>
+{% endblock %}
